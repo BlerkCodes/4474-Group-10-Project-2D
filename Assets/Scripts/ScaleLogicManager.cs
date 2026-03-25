@@ -542,7 +542,7 @@ public class ScaleLogicManager : MonoBehaviour
         data.roundNumber = currentRound;
         data.leftStartValue = leftStartValue;
         data.rightStartValue = rightStartValue;
-        data.movableObjects = new List<MovableObjectData>(availableObjects);
+        //data.movableObjects = new List<MovableObjectData>(availableObjects);
 
         OnRoundSetup?.Invoke(data);
     }

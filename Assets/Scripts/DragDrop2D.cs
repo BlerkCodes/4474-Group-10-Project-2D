@@ -72,6 +72,7 @@ public class DragDrop2D : MonoBehaviour
     bool IsMouseOverThisObject(Vector3 worldPos)
     {
         RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+        Debug.Log(hit);
         return hit.collider != null && hit.collider.gameObject == gameObject;
     }
 }
