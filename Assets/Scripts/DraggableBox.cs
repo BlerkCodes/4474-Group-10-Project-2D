@@ -1,31 +1,55 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.EventSystems;
 
 public class DraggableBox : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Image image;
+    public TextMeshProUGUI text;
     [HideInInspector] public Transform parentAfterDrag;
+    [HideInInspector] public Transform baseParent;
+
+    private void Awake()
+    {
+        baseParent = transform.parent;
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Begin Drag");
         parentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         image.raycastTarget = false;
+        text.raycastTarget = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Drag");
         transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("End Drag");
-        transform.SetParent(parentAfterDrag);
+        if (eventData.pointerEnter == null)
+        {
+            transform.SetParent(baseParent);
+            text.fontSize = 20;
+        }
+        else
+        {
+            transform.SetParent(parentAfterDrag);
+            if (parentAfterDrag == baseParent)
+            {
+                text.fontSize = 20;
+            }
+            else
+            {
+                text.fontSize = 8;
+            }
+        }
+
         image.raycastTarget = true;
+        text.raycastTarget = true;
     }
 }
