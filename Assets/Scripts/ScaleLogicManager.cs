@@ -272,13 +272,13 @@ public class ScaleLogicManager : MonoBehaviour
         }
         else if (selectedDifficulty == 2)
         {
-            movableObjectCount = 4;
-            maxValueForDifficulty = 60;
+            movableObjectCount = 5;
+            maxValueForDifficulty = 40;
         }
         else
         {
-            movableObjectCount = 5;
-            maxValueForDifficulty = 99;
+            movableObjectCount = 6;
+            maxValueForDifficulty = 40;
         }
     }
     
