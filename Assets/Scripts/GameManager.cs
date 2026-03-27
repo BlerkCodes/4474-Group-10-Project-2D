@@ -45,11 +45,16 @@ public class GameManager : MonoBehaviour
     public int leftAnswerVariable;
     public int leftBaseBox;
     public TextMeshProUGUI leftBoxText;
+    public TextMeshProUGUI leftTotalText;
     public int rightAnswerVariable;
     public int rightBaseBox;
     public TextMeshProUGUI rightBoxText;
+    public TextMeshProUGUI rightTotalText;
     public List<GameObject> leftAnswerBoxes = new List<GameObject>();
     public List<GameObject> rightAnswerBoxes = new List<GameObject>();
+
+    [Header("Levels")]
+    public List<ColorChange> levelNodes;
 
     [Header("Difficulty 1 Attributes")]
     public int minQuestionRange1;
@@ -116,9 +121,15 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        leftTotalText.SetText(leftAnswerVariable.ToString());
+        rightTotalText.SetText(rightAnswerVariable.ToString());
+
         if (leftAnswerVariable == rightAnswerVariable)
         {
             adjuster.ChangeCenter();
+            levelNodes[currentRound].ChangeComplete();
+            currentRound++;
+            MakeRound();
         }
         else if (leftAnswerVariable > rightAnswerVariable)
         {
@@ -153,6 +164,16 @@ public class GameManager : MonoBehaviour
     {
         if (currentRound > 0)
         {
+            foreach (Transform child in leftBoxInputParent.transform)
+            {
+                DestroyAllChildren(child.gameObject);
+            }
+
+            foreach (Transform child in rightBoxInputParent.transform)
+            {
+                DestroyAllChildren(child.gameObject);
+            }
+
             DestroyAllChildren(baseBoxInputParent);
             leftBaseBox = rightBaseBox;
             leftBoxText.SetText(leftBaseBox.ToString());

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEditor;
 
 public class DraggableBox : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -39,7 +40,7 @@ public class DraggableBox : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         else
         {
             transform.SetParent(parentAfterDrag);
-            if (parentAfterDrag == baseParent)
+            if (eventData.pointerEnter == baseParent)
             {
                 text.fontSize = 20;
             }
