@@ -2002,7 +2002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 1295116988}
   SFXSource: {fileID: 417847629}
-  background: {fileID: 8300000, guid: c103d18150d33fe4e8986f129d354e4f, type: 3}
+  background: {fileID: 0}
   SomeRandomAction: {fileID: 0}
 --- !u!4 &2057661595
 Transform:

@@ -8,12 +8,14 @@ public class DraggableBox : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 {
     public Image image;
     public TextMeshProUGUI text;
-     public Transform parentAfterDrag;
-     public Transform baseParent;
+    private BoxValue bv;
+    [HideInInspector] public Transform parentAfterDrag;
+    [HideInInspector] public Transform baseParent;
 
     private void Awake()
     {
         baseParent = transform.parent;
+        bv = gameObject.GetComponent<BoxValue>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -54,6 +56,7 @@ public class DraggableBox : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             {
                 transform.SetParent(parentAfterDrag);
                 text.fontSize = 8;
+                bv.isDropped();
             }
         }
 

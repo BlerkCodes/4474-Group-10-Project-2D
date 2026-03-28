@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     public List<int> questionValues = new List<int>();
 
-    private int selectedDifficulty = 1;
+    public int selectedDifficulty;
     public int currentRound;
 
     [Header("Prefabs")]
@@ -52,6 +52,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI rightTotalText;
     public List<GameObject> leftAnswerBoxes = new List<GameObject>();
     public List<GameObject> rightAnswerBoxes = new List<GameObject>();
+
+    [Header("SkipButton")]
+    public GameObject skipButton;
+    public int timesDropped;
+    public int totalDropped;
 
     [Header("Levels")]
     public List<ColorChange> levelNodes;
@@ -81,6 +86,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        skipButton.SetActive(false);
         currentRound = 0;
         adjuster.ChangeCenter();
         win = gameObject.GetComponent<WinScreen>();
@@ -99,7 +105,8 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        MakeDifficulty(selectedDifficulty);
+        selectedDifficulty = PlayerPrefs.GetInt("GameDifficulty", 1);
+        SetDifficulty();
         MakeRound();
         levelNodes[currentRound].ChangeCurrent();
     }
@@ -109,13 +116,16 @@ public class GameManager : MonoBehaviour
     {
         leftAnswerVariable = leftBaseBox;
         rightAnswerVariable = rightBaseBox;
+        timesDropped = 0;
 
         foreach (GameObject leftBox in leftAnswerBoxes)
         {
             if (leftBox.transform.childCount > 0)
             {
                 GameObject child = leftBox.transform.GetChild(0).gameObject;
-                leftAnswerVariable += child.GetComponent<BoxValue>().GetValue();
+                BoxValue left = child.GetComponent<BoxValue>();
+                leftAnswerVariable += left.GetValue();
+                timesDropped += left.GetDropped();
             }
         }
 
@@ -124,8 +134,24 @@ public class GameManager : MonoBehaviour
             if (rightBox.transform.childCount > 0)
             {
                 GameObject child = rightBox.transform.GetChild(0).gameObject;
-                rightAnswerVariable += child.GetComponent<BoxValue>().GetValue();
+                BoxValue right = child.GetComponent<BoxValue>();
+                rightAnswerVariable += right.GetValue();
+                timesDropped += right.GetDropped();
             }
+        }
+
+        foreach (Transform baseBoxHolder in baseBoxInputParent.transform)
+        {
+            if (baseBoxHolder.transform.childCount > 0)
+            {
+                GameObject child = baseBoxHolder.transform.GetChild(0).gameObject;
+                timesDropped += child.GetComponent<BoxValue>().GetDropped();
+            }
+        }
+
+        if (timesDropped > totalDropped)
+        {
+            totalDropped = timesDropped;
         }
 
         leftTotalText.SetText(leftAnswerVariable.ToString());
@@ -146,11 +172,16 @@ public class GameManager : MonoBehaviour
             adjuster.ChangeRight();
             endTimer = 0;
         }
+
+        if (totalDropped >= 20)
+        {
+            skipButton.SetActive(true);
+        }
     }
 
-    private void MakeDifficulty(int difficulty)
+    private void SetDifficulty()
     {
-        switch (difficulty)
+        switch (selectedDifficulty)
         {
             case 1:
                 currentDifficulty = new Difficulty(minQuestionRange1, maxQuestionRange1, minBoxesAmount1, maxBoxesAmount1);
@@ -207,14 +238,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = lengthOfAnswer; numOfBoxes > i; i++)
         {
-            if (currentDifficulty.minQuestionRange == 0)
-            {
-                questionValues.Add(UnityEngine.Random.Range(1, currentDifficulty.maxQuestionRange));
-            }
-            else
-            {
-                questionValues.Add(UnityEngine.Random.Range(currentDifficulty.minQuestionRange, currentDifficulty.maxQuestionRange));
-            }
+            questionValues.Add(UnityEngine.Random.Range(1, (currentDifficulty.maxQuestionRange - currentDifficulty.minQuestionRange)));
         }
 
         questionValues.Sort();
@@ -236,7 +260,10 @@ public class GameManager : MonoBehaviour
         if (numbersRemaining == 1)
         {
             int num = Mathf.Abs(currentResult - rightBaseBox);
-            questionValues.Add(num);
+            if (num != 0)
+            {
+                questionValues.Add(num);
+            }
             return;
         }
         else
@@ -250,7 +277,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                int num = UnityEngine.Random.Range(1, (currentResult + currentDifficulty.minQuestionRange) + 1);
+                int num = UnityEngine.Random.Range(1, (currentResult - currentDifficulty.minQuestionRange) + 1);
                 questionValues.Add(num);
                 int tempResult = currentResult - num;
                 MakeNewQuestion(numbersRemaining - 1, tempResult);
@@ -266,6 +293,8 @@ public class GameManager : MonoBehaviour
             levelNodes[currentRound].ChangeComplete();
             currentRound++;
             roundsBeaten++;
+            totalDropped = 0;
+            skipButton.SetActive(false);
             endTimer = 0;
             levelEnd = true;
         }
@@ -287,6 +316,23 @@ public class GameManager : MonoBehaviour
                     win.WinGame(selectedDifficulty, roundsBeaten);
                 }
             }
+        }
+    }
+
+    public void SkipQuestion()
+    {
+        if (currentRound < 4)
+        {
+            levelNodes[currentRound].ChangeSkipped();
+            currentRound++;
+            totalDropped = 0;
+            skipButton.SetActive(false);
+            MakeRound();
+            levelNodes[currentRound].ChangeCurrent();
+        }
+        else
+        {
+            win.WinGame(selectedDifficulty, roundsBeaten);
         }
     }
 
