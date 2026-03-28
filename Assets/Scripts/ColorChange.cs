@@ -14,4 +14,14 @@ public class ColorChange : MonoBehaviour
     {
         sp.color = Color.green;
     }
+
+    public void ChangeCurrent()
+    {
+        sp.color = Color.yellow;
+    }
+
+    public void ChangeSkipped()
+    {
+        sp.color = Color.gray;
+    }
 }

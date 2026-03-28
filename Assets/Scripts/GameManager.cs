@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     public List<int> questionValues = new List<int>();
 
     private int selectedDifficulty = 1;
-    private int currentRound;
+    public int currentRound;
 
     [Header("Prefabs")]
     public GameObject baseBoxHolderPrefab;
@@ -55,6 +55,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Levels")]
     public List<ColorChange> levelNodes;
+    public bool levelEnd = false;
+    public float endTimer;
+    public float endWaitTime;
+    public int roundsBeaten;
+    public WinScreen win;
 
     [Header("Difficulty 1 Attributes")]
     public int minQuestionRange1;
@@ -78,6 +83,7 @@ public class GameManager : MonoBehaviour
     {
         currentRound = 0;
         adjuster.ChangeCenter();
+        win = gameObject.GetComponent<WinScreen>();
 
         foreach (Transform child in leftBoxInputParent.transform)
         {
@@ -95,6 +101,7 @@ public class GameManager : MonoBehaviour
     {
         MakeDifficulty(selectedDifficulty);
         MakeRound();
+        levelNodes[currentRound].ChangeCurrent();
     }
 
     // Update is called once per frame
@@ -127,17 +134,17 @@ public class GameManager : MonoBehaviour
         if (leftAnswerVariable == rightAnswerVariable)
         {
             adjuster.ChangeCenter();
-            levelNodes[currentRound].ChangeComplete();
-            currentRound++;
-            MakeRound();
+            RoundComplete();
         }
         else if (leftAnswerVariable > rightAnswerVariable)
         {
             adjuster.ChangeLeft();
+            endTimer = 0;
         }
         else
         {
             adjuster.ChangeRight();
+            endTimer = 0;
         }
     }
 
@@ -250,6 +257,37 @@ public class GameManager : MonoBehaviour
             }
         }
         return;
+    }
+
+    private void RoundComplete()
+    {
+        if (levelEnd == false)
+        {
+            levelNodes[currentRound].ChangeComplete();
+            currentRound++;
+            roundsBeaten++;
+            endTimer = 0;
+            levelEnd = true;
+        }
+        else
+        {
+            endTimer += Time.deltaTime;
+
+            if (endTimer >= endWaitTime)
+            {
+                if (currentRound < 5)
+                {
+                    MakeRound();
+                    levelNodes[currentRound].ChangeCurrent();
+                    endTimer = 0;
+                    levelEnd = false;
+                }
+                else
+                {
+                    win.WinGame(selectedDifficulty, roundsBeaten);
+                }
+            }
+        }
     }
 
     private void DestroyAllChildren(GameObject parent)

@@ -8,8 +8,8 @@ public class DraggableBox : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 {
     public Image image;
     public TextMeshProUGUI text;
-    [HideInInspector] public Transform parentAfterDrag;
-    [HideInInspector] public Transform baseParent;
+     public Transform parentAfterDrag;
+     public Transform baseParent;
 
     private void Awake()
     {
@@ -32,20 +32,27 @@ public class DraggableBox : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (eventData.pointerEnter == null)
+        if (eventData.pointerEnter == null || !eventData.pointerEnter.TryGetComponent<BoxSlot>(out BoxSlot bs))
         {
             transform.SetParent(baseParent);
             text.fontSize = 20;
         }
         else
         {
-            transform.SetParent(parentAfterDrag);
-            if (eventData.pointerEnter == baseParent)
+            if (parentAfterDrag.transform == baseParent.transform)
             {
+                transform.SetParent(parentAfterDrag);
+                text.fontSize = 20;
+            }
+            else if (parentAfterDrag.transform.position.y == baseParent.transform.position.y) // I know this seems stupid but it works
+            {
+                parentAfterDrag = baseParent;
+                transform.SetParent(parentAfterDrag);
                 text.fontSize = 20;
             }
             else
             {
+                transform.SetParent(parentAfterDrag);
                 text.fontSize = 8;
             }
         }

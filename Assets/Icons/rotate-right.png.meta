@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f0572d4065f420b41bd0a6eb6c507109
+guid: ad0d1f2f78f25994ab6eb76f1789c726
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9061528059758566426
-    second: play-button-arrowhead_0
+      213: -5859943508921949629
+    second: rotate-right_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: play-button-arrowhead_0
+      name: rotate-right_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 0
-        width: 462
-        height: 512
+        x: 41
+        y: 41
+        width: 430
+        height: 430
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a1cd424a2c301cd70800000000000000
-      internalID: 9061528059758566426
+      spriteID: 342e9da0d6c4daea0800000000000000
+      internalID: -5859943508921949629
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e16d67ac3bc685e45997abf1ce900d91
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      play-button-arrowhead_0: 9061528059758566426
+      rotate-right_0: -5859943508921949629
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
