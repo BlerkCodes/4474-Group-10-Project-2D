@@ -7,7 +7,11 @@ public class AudioManager : MonoBehaviour
 
     [Header("Audio Clip")]
     public AudioClip background;
-    public AudioClip SomeRandomAction;
+    public AudioClip menuClick;
+    public AudioClip blockGrab;
+    public AudioClip blockPlace;
+    public AudioClip blockMisplace;
+    public AudioClip win;
 
     private static AudioManager instance;
 

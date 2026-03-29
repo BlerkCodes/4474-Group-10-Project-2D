@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public Difficulty currentDifficulty;
     public ScaleAdjuster adjuster;
+    private AudioManager audioManager;
 
     public List<int> questionValues = new List<int>();
 
@@ -56,7 +57,7 @@ public class GameManager : MonoBehaviour
     [Header("SkipButton")]
     public GameObject skipButton;
     public int timesDropped;
-    public int totalDropped;
+    public bool skipOn = false;
 
     [Header("Levels")]
     public List<ColorChange> levelNodes;
@@ -86,6 +87,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         skipButton.SetActive(false);
         currentRound = 0;
         adjuster.ChangeCenter();
@@ -125,7 +127,15 @@ public class GameManager : MonoBehaviour
                 GameObject child = leftBox.transform.GetChild(0).gameObject;
                 BoxValue left = child.GetComponent<BoxValue>();
                 leftAnswerVariable += left.GetValue();
-                timesDropped += left.GetDropped();
+
+                if (!skipOn)
+                {
+                    timesDropped += left.GetDropped();
+                }
+                else
+                {
+                    left.ResetDrops();
+                }
             }
         }
 
@@ -136,7 +146,16 @@ public class GameManager : MonoBehaviour
                 GameObject child = rightBox.transform.GetChild(0).gameObject;
                 BoxValue right = child.GetComponent<BoxValue>();
                 rightAnswerVariable += right.GetValue();
-                timesDropped += right.GetDropped();
+
+                if (!skipOn)
+                {
+                    timesDropped += right.GetDropped();
+                }
+                else
+                {
+                    right.ResetDrops();
+                }
+
             }
         }
 
@@ -145,13 +164,16 @@ public class GameManager : MonoBehaviour
             if (baseBoxHolder.transform.childCount > 0)
             {
                 GameObject child = baseBoxHolder.transform.GetChild(0).gameObject;
-                timesDropped += child.GetComponent<BoxValue>().GetDropped();
-            }
-        }
 
-        if (timesDropped > totalDropped)
-        {
-            totalDropped = timesDropped;
+                if (!skipOn)
+                {
+                    timesDropped += child.GetComponent<BoxValue>().GetDropped();
+                }
+                else
+                {
+                    child.GetComponent<BoxValue>().ResetDrops();
+                }
+            }
         }
 
         leftTotalText.SetText(leftAnswerVariable.ToString());
@@ -173,9 +195,17 @@ public class GameManager : MonoBehaviour
             endTimer = 0;
         }
 
-        if (totalDropped >= 20)
+        if (skipOn)
         {
             skipButton.SetActive(true);
+        }
+        else
+        {
+            skipButton.SetActive(false);
+            if (timesDropped >= 15)
+            {
+                skipOn = true;
+            }
         }
     }
 
@@ -290,17 +320,18 @@ public class GameManager : MonoBehaviour
     {
         if (levelEnd == false)
         {
+            audioManager.PlaySFX(audioManager.win);
             levelNodes[currentRound].ChangeComplete();
             currentRound++;
             roundsBeaten++;
-            totalDropped = 0;
-            skipButton.SetActive(false);
             endTimer = 0;
+            skipOn = false;
             levelEnd = true;
         }
         else
         {
             endTimer += Time.deltaTime;
+            timesDropped = 0;
 
             if (endTimer >= endWaitTime)
             {
@@ -325,10 +356,9 @@ public class GameManager : MonoBehaviour
         {
             levelNodes[currentRound].ChangeSkipped();
             currentRound++;
-            totalDropped = 0;
-            skipButton.SetActive(false);
             MakeRound();
             levelNodes[currentRound].ChangeCurrent();
+            skipOn = false;
         }
         else
         {

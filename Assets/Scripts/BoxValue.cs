@@ -34,4 +34,9 @@ public class BoxValue : MonoBehaviour
     {
         return dropped;
     }
+
+    public void ResetDrops()
+    {
+        dropped = 0;
+    }
 }

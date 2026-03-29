@@ -542,6 +542,18 @@ MonoBehaviour:
           m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1509440923}
+        m_TargetAssemblyTypeName: ButtonClick, Assembly-CSharp
+        m_MethodName: MenuButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1064444542
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -723,8 +735,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 1663867625}
   SFXSource: {fileID: 1434076977}
-  background: {fileID: 0}
-  SomeRandomAction: {fileID: 0}
+  background: {fileID: 8300000, guid: ca1b6db74d62b8a4382340f6f91aa741, type: 3}
+  menuClick: {fileID: 8300000, guid: 58a17fd6af9ed274f92181b49a9ac709, type: 3}
+  blockGrab: {fileID: 8300000, guid: 200bbb0e5e7cd3d489c3e43226b03cfe, type: 3}
+  blockPlace: {fileID: 8300000, guid: 229a920b58d1a2147985cc57b762af57, type: 3}
+  blockMisplace: {fileID: 8300000, guid: 92b6a8ffbac2c7346ab9555788ac0611, type: 3}
+  win: {fileID: 8300000, guid: 9b752f1e508f5b14cafff12dbdc3913a, type: 3}
 --- !u!4 &1441001725
 Transform:
   m_ObjectHideFlags: 0
@@ -752,6 +768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1509440921}
   - component: {fileID: 1509440922}
+  - component: {fileID: 1509440923}
   - component: {fileID: 1509440919}
   - component: {fileID: 1509440918}
   - component: {fileID: 1509440917}
@@ -862,6 +879,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e59b243636e844246a6d388bf1838556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSceneLoader
+--- !u!114 &1509440923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509440916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f44db14868370f2458090eead49d7c1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonClick
 --- !u!1 &1663867624
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,6 +1554,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1509440923}
+        m_TargetAssemblyTypeName: ButtonClick, Assembly-CSharp
+        m_MethodName: MenuButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1922622239
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1665,6 +1706,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1509440923}
+        m_TargetAssemblyTypeName: ButtonClick, Assembly-CSharp
+        m_MethodName: MenuButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1811,6 +1864,18 @@ MonoBehaviour:
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: Game
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1509440923}
+        m_TargetAssemblyTypeName: ButtonClick, Assembly-CSharp
+        m_MethodName: MenuButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!222 &1969540222
