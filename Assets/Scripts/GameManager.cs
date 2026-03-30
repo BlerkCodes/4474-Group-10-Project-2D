@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private const int TOTALROUNDS = 5;
+    private const int ADAPTIVE_MINIMUM = 2;
 
     [Serializable]
     public struct Difficulty
@@ -27,6 +28,9 @@ public class GameManager : MonoBehaviour
     public Difficulty currentDifficulty;
     public ScaleAdjuster adjuster;
     private AudioManager audioManager;
+
+    private int lengthOfAnswer;
+    public int currentMinimumLength;
 
     public List<int> questionValues = new List<int>();
 
@@ -57,6 +61,8 @@ public class GameManager : MonoBehaviour
     [Header("SkipButton")]
     public GameObject skipButton;
     public int timesDropped;
+    public int dropCheck;
+    public int lastDropCheck;
     public bool skipOn = false;
 
     [Header("Levels")]
@@ -202,6 +208,7 @@ public class GameManager : MonoBehaviour
         else
         {
             skipButton.SetActive(false);
+            dropCheck = timesDropped;
             if (timesDropped >= 15)
             {
                 skipOn = true;
@@ -248,6 +255,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            currentMinimumLength = ADAPTIVE_MINIMUM;
             leftBaseBox = UnityEngine.Random.Range(currentDifficulty.minQuestionRange, currentDifficulty.maxQuestionRange + 1);
             leftBoxText.SetText(leftBaseBox.ToString());
         }
@@ -263,7 +271,7 @@ public class GameManager : MonoBehaviour
 
         // Inserts sequence of numbers into the list that makes sure there is always an answer to the problem
         int numOfBoxes = UnityEngine.Random.Range(currentDifficulty.minBoxesAmount, currentDifficulty.maxBoxesAmount + 1);
-        int lengthOfAnswer = UnityEngine.Random.Range(2, numOfBoxes);
+        lengthOfAnswer = UnityEngine.Random.Range(currentMinimumLength, numOfBoxes);
         MakeNewQuestion(lengthOfAnswer , leftBaseBox);
 
         for (int i = lengthOfAnswer; numOfBoxes > i; i++)
@@ -293,6 +301,10 @@ public class GameManager : MonoBehaviour
             if (num != 0)
             {
                 questionValues.Add(num);
+            }
+            else
+            {
+                lengthOfAnswer--;
             }
             return;
         }
@@ -324,6 +336,8 @@ public class GameManager : MonoBehaviour
             levelNodes[currentRound].ChangeComplete();
             currentRound++;
             roundsBeaten++;
+            IncreaseMinimumAnswerLength(dropCheck+1);
+            dropCheck = 0;
             endTimer = 0;
             skipOn = false;
             levelEnd = true;
@@ -357,6 +371,8 @@ public class GameManager : MonoBehaviour
             levelNodes[currentRound].ChangeSkipped();
             currentRound++;
             MakeRound();
+            DecreaseMinimumOnSkip();
+            dropCheck = 0;
             levelNodes[currentRound].ChangeCurrent();
             skipOn = false;
         }
@@ -364,6 +380,41 @@ public class GameManager : MonoBehaviour
         {
             win.WinGame(selectedDifficulty, roundsBeaten);
         }
+    }
+
+    public void IncreaseMinimumAnswerLength(int check)
+    {
+        if (lastDropCheck == 0)
+        {
+            currentMinimumLength++;
+        }
+        else if (check <= lastDropCheck)
+        {
+            if (currentMinimumLength < currentDifficulty.maxBoxesAmount)
+            {
+                currentMinimumLength++;
+            }
+
+        }
+        else
+        {
+            if (currentMinimumLength > currentDifficulty.minBoxesAmount)
+            {
+                currentMinimumLength--;
+            }
+        }
+
+        lastDropCheck = check;
+    }
+
+    public void DecreaseMinimumOnSkip()
+    {
+        if (currentMinimumLength > currentDifficulty.minBoxesAmount)
+        {
+            currentMinimumLength--;
+        }
+
+        lastDropCheck = 0;
     }
 
     private void DestroyAllChildren(GameObject parent)

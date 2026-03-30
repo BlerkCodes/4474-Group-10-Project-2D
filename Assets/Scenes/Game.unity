@@ -4278,6 +4278,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 509586068}
+        m_TargetAssemblyTypeName: Confirmation, Assembly-CSharp
+        m_MethodName: CloseConfirmationHome
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 509586068}
+        m_TargetAssemblyTypeName: Confirmation, Assembly-CSharp
+        m_MethodName: CloseConfirmationLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1263717947
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7012,7 +7036,7 @@ MonoBehaviour:
     minBoxesAmount: 0
     maxBoxesAmount: 0
   adjuster: {fileID: 1675157347}
-  audioManager: {fileID: 362723279}
+  currentMinimumLength: 0
   questionValues: 
   selectedDifficulty: 0
   currentRound: 0
@@ -7033,7 +7057,9 @@ MonoBehaviour:
   rightAnswerBoxes: []
   skipButton: {fileID: 1666563424}
   timesDropped: 0
-  totalDropped: 0
+  dropCheck: 0
+  lastDropCheck: 0
+  skipOn: 0
   levelNodes:
   - {fileID: 1727327033}
   - {fileID: 91507977}
