@@ -256,7 +256,7 @@ public class GameManager : MonoBehaviour
         else
         {
             currentMinimumLength = ADAPTIVE_MINIMUM;
-            leftBaseBox = UnityEngine.Random.Range(currentDifficulty.minQuestionRange, currentDifficulty.maxQuestionRange + 1);
+            leftBaseBox = UnityEngine.Random.Range(currentDifficulty.minQuestionRange + 1, currentDifficulty.maxQuestionRange + 1);
             leftBoxText.SetText(leftBaseBox.ToString());
         }
 
@@ -264,7 +264,7 @@ public class GameManager : MonoBehaviour
 
         do
         {
-            rightBaseBox = UnityEngine.Random.Range(currentDifficulty.minQuestionRange, currentDifficulty.maxQuestionRange + 1); // makes the new result
+            rightBaseBox = UnityEngine.Random.Range(currentDifficulty.minQuestionRange + 1, currentDifficulty.maxQuestionRange + 1); // makes the new result
             rightBoxText.SetText(rightBaseBox.ToString());
         } while (rightBaseBox == leftBaseBox);
 
