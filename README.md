@@ -2,7 +2,7 @@
 This is a remake of the fitting pipes game, reimagined using scales. 
 
 How to open:
-    Simply run the 4474FinalProject2d.exe file. Everything is prebuilt. Or if you are unable to find the .exe file, then open this project within unity version 6.000.3.0f1 and on the top left corner select the File tab and click on the "Build Profiles" section. This will open up a new window where you can then select "Build And Run", select the folder you want to build the game in. After it completes building, it will open up the folder automatically and then you can select 4474FinalProject2d.exe to run.
+    Simply run the 4474FinalProject2d.exe file from https://blerk-pun.itch.io/scale-it-4474-project (Password: 4474Group10). Everything is prebuilt. Or if you are unable to find the .exe file, then open this project within unity version 6.000.3.0f1 and on the top left corner select the File tab and click on the "Build Profiles" section. This will open up a new window where you can then select "Build And Run", select the folder you want to build the game in. After it completes building, it will open up the folder automatically and then you can select 4474FinalProject2d.exe to run.
 
 Goals and Actions:
     The goal is to balance both sides of the scales to be equal weights.
